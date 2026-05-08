@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Neon Landing Page</title>
+    <style>
+        /* --- VARIABLES NEÓN --- */
+        :root {
+            --bg-dark: #050510;
+            --neon-primary: #00f3ff; /* Cian */
+            --neon-secondary: #ff00ff; /* Magenta */
+            --text-light: #e0e0e0;
+            --card-bg: rgba(15, 15, 30, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            color: var(--text-light);
+            background-color: var(--bg-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- FONDO DE PARTÍCULAS --- */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Envía el canvas al fondo */
+            background-color: var(--bg-dark);
+        }
+
+        /* --- NAVEGACIÓN --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 5, 16, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        header.scrolled {
+            background: rgba(5, 5, 16, 0.9);
+            border-bottom: 1px solid var(--neon-primary);
+            box-shadow: 0 0 15px var(--neon-primary);
+            padding: 15px 50px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--neon-secondary);
+            text-shadow: 0 0 8px var(--neon-secondary);
+        }
+
+        /* --- SECCIÓN INICIO --- */
+        #inicio {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        #inicio h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            min-height: 90px;
+            color: #fff;
+            border-right: 4px solid var(--neon-primary);
+            padding-right: 10px;
+            text-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary), 0 0 40px var(--neon-primary);
+            animation: blink 0.75s step-end infinite;
+        }
+
+        #inicio p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            color: #ccc;
+        }
+
+        /* Botón Neón */
+        button {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            color: #fff;
+            background: transparent;
+            border: 2px solid var(--neon-secondary);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px var(--neon-secondary) inset, 0 0 15px var(--neon-secondary);
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: var(--neon-secondary);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-secondary) inset, 0 0 30px var(--neon-secondary);
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--neon-primary); }
+        }
+
+        /* --- ESTILOS GENERALES DE SECCIONES --- */
+        section {
+            padding: 100px 50px;
+            position: relative;
+            z-index: 1; /* Asegura que el contenido esté sobre el canvas */
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 50px;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-secondary);
+        }
+
+        /* --- SECCIÓN NOSOTROS --- */
+        #nosotros {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            background: linear-gradient(to right, rgba(5,5,16,1), rgba(5,5,16,0));
+        }
+
+        .nosotros-text {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 10px;
+            border-left: 4px solid var(--neon-primary);
+            box-shadow: -10px 0 20px rgba(0, 243, 255, 0.1);
+        }
+
+        .nosotros-text p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .nosotros-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--neon-secondary);
+            box-shadow: 0 0 20px var(--neon-secondary);
+        }
+
+        .nosotros-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(30%) contrast(120%);
+        }
+
+        /* --- SECCIÓN SERVICIOS --- */
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .servicio-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            transition: all 0.3s;
+            text-align: center;
+            padding-bottom: 30px;
+        }
+
+        .servicio-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-primary);
+            box-shadow: 0 0 25px var(--neon-primary);
+        }
+
+        .servicio-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            filter: hue-rotate(180deg) saturate(200%); /* Da un toque más irreal/neón a las fotos */
+        }
+
+        .servicio-card h3 {
+            margin: 25px 0 15px;
+            color: #fff;
+            text-shadow: 0 0 5px var(--neon-primary);
+            text-transform: uppercase;
+        }
+
+        .servicio-card p {
+            padding: 0 25px;
+            font-size: 1rem;
+            color: #aaa;
+        }
+
+        /* --- SECCIÓN CONTACTO --- */
+        #contacto {
+            text-align: center;
+            background: linear-gradient(to top, rgba(5,5,16,1), rgba(5,5,16,0));
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--neon-secondary);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+        }
+
+        input, textarea {
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #fff;
+            width: 100%;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--neon-primary);
+            box-shadow: 0 0 10px var(--neon-primary);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #020205;
+            color: #666;
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            #nosotros { flex-direction: column; }
+            header { padding: 15px; flex-direction: column; gap: 15px; }
+            header.scrolled { padding: 15px; }
+            nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            #inicio h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <header id="header">
+        <a href="#inicio" class="logo">NeonWeb</a>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio">
+        <h1 id="saludo"></h1>
+        <p>Inmersión en el entorno digital. Conectando ideas en la matriz.</p>
+        <button id="btnMagico">Alterar Matriz</button>
+    </section>
+
+    <section id="nosotros">
+        <div class="nosotros-text">
+            <h2 class="section-title" style="text-align: left; font-size: 2rem;">Sistema Core</h2>
+            <p>Somos un conglomerado de mentes digitales operando en las sombras de la red. Nuestro código transforma visiones corporativas en realidades inmersivas.</p>
+            <p>Desarrollamos arquitecturas de software limpias y escalables, preparadas para el futuro del ecosistema web.</p>
+        </div>
+        <div class="nosotros-img">
+            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Código Matrix">
+        </div>
+    </section>
+
+    <section id="servicios">
+        <h2 class="section-title">Protocolos Activos</h2>
+        <div class="servicios-grid">
+            <div class="servicio-card">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Ciberseguridad">
+                <h3>Arquitectura Web</h3>
+                <p>Construcción de interfaces oscuras, rápidas y optimizadas para máxima retención de usuarios.</p>
+            </div>
+            <div class="servicio-card">
+                <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Conexión Neón">
+                <h3>Redes Neurales</h3>
+                <p>Integración de inteligencias artificiales para automatizar y revolucionar tus procesos.</p>
+            </div>
+            <div class="servicio-card">
+                <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Código">
+                <h3>Algoritmos SEO</h3>
+                <p>Manipulación del tráfico de red para posicionar tus datos en la cima de los motores de búsqueda.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2 class="section-title">Establecer Enlace</h2>
+        <form onsubmit="event.preventDefault(); alert('¡Datos encriptados y enviados a la red!');">
+            <input type="text" placeholder="Identificador (Nombre)" required>
+            <input type="email" placeholder="Canal de comunicación (Correo)" required>
+            <textarea placeholder="Ingresa los parámetros de tu misión..." required></textarea>
+            <button type="submit">Transmitir Datos</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 NeonWeb Sys. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // 1. Efecto de Máquina de Escribir
+        const texto = "¡Hola, Mundo Oscuro!";
+        let index = 0;
+        const velocidad = 100;
+
+        function escribirTexto() {
+            if (index < texto.length) {
+                document.getElementById("saludo").innerHTML += texto.charAt(index);
+                index++;
+                setTimeout(escribirTexto, velocidad);
+            }
+        }
+        window.onload = escribirTexto;
+
+        // 2. Menú Dinámico
+        const header = document.getElementById("header");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        });
+
+        // 3. Sistema de Partículas (Canvas)
+        const canvas = document.getElementById("particles-canvas");
+        const ctx = canvas.getContext("2d");
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray = [];
+        let particulaColor = "#00f3ff"; // Color inicial (Cian)
+        let linkColor = "rgba(0, 243, 255,";
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 1.5 - 0.75;
+                this.speedY = Math.random() * 1.5 - 0.75;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // Rebotar en los bordes
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = particulaColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            // Ajusta la cantidad de partículas según el tamaño de la pantalla
+            let numberOfParticles = (canvas.width * canvas.height) / 10000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                
+                // Conectar partículas cercanas con líneas
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `${linkColor} ${1 - distance/100})`; // Opacidad basada en la distancia
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Ajustar canvas al redimensionar la ventana
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        // 4. Botón Mágico: Cambiar colores de la matriz (Partículas y Neón)
+        const boton = document.getElementById("btnMagico");
+        boton.addEventListener("click", () => {
+            const paletas = [
+                { hex: "#ff00ff", rgb: "rgba(255, 0, 255," },  // Magenta
+                { hex: "#00ff00", rgb: "rgba(0, 255, 0," },    // Verde Neón
+                { hex: "#ffaa00", rgb: "rgba(255, 170, 0," },  // Naranja Neón
+                { hex: "#00f3ff", rgb: "rgba(0, 243, 255," }   // Cian
+            ];
+            
+            const colorAleatorio = paletas[Math.floor(Math.random() * paletas.length)];
+            
+            // Actualizar variables de partículas
+            particulaColor = colorAleatorio.hex;
+            linkColor = colorAleatorio.rgb;
+            
+            // Actualizar la variable CSS para el resplandor principal
+            document.documentElement.style.setProperty('--neon-primary', colorAleatorio.hex);
+        });
+    </script>
+
+</body>
+</html>
